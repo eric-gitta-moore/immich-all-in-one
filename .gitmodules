@@ -1,0 +1,9 @@
+[submodule "inference-gateway"]
+	path = inference-gateway
+	url = https://github.com/eric-gitta-moore/inference-gateway.git
+[submodule "mt-photos-ai"]
+	path = mt-photos-ai
+	url = https://github.com/eric-gitta-moore/mt-photos-ai.git
+[submodule "immich"]
+	path = immich
+	url = https://github.com/eric-gitta-moore/immich.git
