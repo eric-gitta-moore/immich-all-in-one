@@ -125,12 +125,13 @@ services:
     build:
       context: ../mt-photos-ai
       dockerfile: Dockerfile
+      args:
+        - BUILD_DEVICE=cuda
     environment:
       - API_AUTH_KEY=4C22E759-8589-475E-8895-9DCB3088E2F6
       - CLIP_MODEL=ViT-B-16
       - RECOGNITION_MODEL=buffalo_l
       - DETECTION_THRESH=0.65
-      - DEVICE=cuda
     volumes:
       - ./models/clip:/app/.cache/clip
       - ./models/rapidocr:/app/.venv/lib/python3.11/site-packages/rapidocr/models/
