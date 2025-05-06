@@ -5,7 +5,7 @@ services:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     build:
-      context: ../
+      context: ../immich
       dockerfile: server/Dockerfile
     volumes:
       - ${UPLOAD_LOCATION}/photos:/usr/src/app/upload
@@ -28,14 +28,12 @@ services:
       - redis
       - database
     restart: always
-    healthcheck:
-      disable: false
 
   immich-machine-learning:
     container_name: immich_machine_learning
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}-cuda
     build:
-      context: ../machine-learning
+      context: ../immich/machine-learning
       dockerfile: Dockerfile
       args:
         - DEVICE=cuda # set to one of [armnn, cuda, rocm, openvino, openvino-wsl, rknn] for accelerated inference
@@ -54,8 +52,6 @@ services:
               capabilities:
                 - gpu
     restart: always
-    healthcheck:
-      disable: false
 
   redis:
     container_name: immich_redis
@@ -114,20 +110,33 @@ services:
   inference-gateway:
     container_name: inference_gateway
     image: immich-inference-gateway:${IMMICH_VERSION:-release}
-    ports:
-      - 8080:8080
     build:
       context: ../inference-gateway
       dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - immich-machine-learning
+      - photos-ai
 
   photos-ai:
     container_name: photos_ai
     image: immich-photos-ai:${IMMICH_VERSION:-release}-cuda
-    ports:
-      - 8060:8060
     build:
       context: ../mt-photos-ai
       dockerfile: Dockerfile
+    environment:
+      - API_AUTH_KEY=4C22E759-8589-475E-8895-9DCB3088E2F6
+      - CLIP_MODEL=ViT-B-16
+      - RECOGNITION_MODEL=buffalo_l
+      - DETECTION_THRESH=0.65
+      - DEVICE=cuda
+    volumes:
+      - ./models/clip:/app/.cache/clip
+      - ./models/rapidocr:/app/.venv/lib/python3.11/site-packages/rapidocr/models/
+      - ./models/insightface:/root/.insightface/models
+    ports:
+      - 8060:8060
       
       
 volumes:
