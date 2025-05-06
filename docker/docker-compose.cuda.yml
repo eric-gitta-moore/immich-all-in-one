@@ -3,7 +3,7 @@ name: immich-enhanced-prod
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    image: immich-server:${IMMICH_VERSION:-release}
     build:
       context: ../immich
       dockerfile: server/Dockerfile
@@ -31,7 +31,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}-cuda
+    image: immich-machine-learning:${IMMICH_VERSION:-release}-cuda
     build:
       context: ../immich/machine-learning
       dockerfile: Dockerfile
