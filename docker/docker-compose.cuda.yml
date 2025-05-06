@@ -12,6 +12,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
+    environment:
+      - IMMICH_MACHINE_LEARNING_URL=http://inference-gateway:8080
     ports:
       - 32283:2283
     deploy:
@@ -117,6 +119,10 @@ services:
     build:
       context: ../inference-gateway
       dockerfile: Dockerfile
+    environment:
+      - IMMICH_API=http://immich-machine-learning:3003
+      - MT_PHOTOS_API=http://photos-ai:8060
+      - MT_PHOTOS_API_KEY=mt_photos_ai_extra
     ports:
       - 8080:8080
     depends_on:
@@ -132,7 +138,7 @@ services:
       args:
         - BUILD_DEVICE=cuda
     environment:
-      - API_AUTH_KEY=4C22E759-8589-475E-8895-9DCB3088E2F6
+      - API_AUTH_KEY=mt_photos_ai_extra
       - CLIP_MODEL=ViT-B-16
       - RECOGNITION_MODEL=buffalo_l
       - DETECTION_THRESH=0.65
