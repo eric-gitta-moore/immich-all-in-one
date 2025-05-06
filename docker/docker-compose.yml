@@ -28,7 +28,7 @@ services:
     ports:
       - 31003:3003
     volumes:
-      - model-cache:/cache
+      - ./model-cache:/cache
     env_file:
       - .env
     restart: always
@@ -51,7 +51,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_DB: ${DB_DATABASE_NAME}
-      POSTGRES_INITDB_ARGS: '--data-checksums'
+      POSTGRES_INITDB_ARGS: "--data-checksums"
     volumes:
       - ${UPLOAD_LOCATION}/postgres:/var/lib/postgresql/data
     ports:
@@ -74,18 +74,22 @@ services:
       - 9090:9090
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus-data:/prometheus
+      - ./prometheus-data:/prometheus
+    healthcheck:
+      test: wget -qO- http://localhost:9090/-/ready || exit 1
 
   # first login uses admin/admin
   # add data source for http://immich-prometheus:9090 to get started
   immich-grafana:
     container_name: immich_grafana
     image: grafana/grafana:11.6.1-ubuntu
-    command: ['./run.sh', '-disable-reporting']
+    command: ["./run.sh", "-disable-reporting"]
     ports:
       - 31000:3000
     volumes:
-      - grafana-data:/var/lib/grafana
+      - ./grafana-data:/var/lib/grafana
+    healthcheck:
+      test: curl -f http://localhost:3000/api/health || exit 1
 
   inference-gateway:
     container_name: inference_gateway
@@ -116,9 +120,3 @@ services:
       - ./models/insightface:/root/.insightface/models
     ports:
       - 8060:8060
-      
-      
-volumes:
-  model-cache:
-  prometheus-data:
-  grafana-data:
