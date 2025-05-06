@@ -1,4 +1,4 @@
-# Immich AI 增强服务
+# Immich + cn-clip + OCR
 
 ## 项目简介
 
