@@ -89,9 +89,9 @@ services:
   # set IMMICH_TELEMETRY_INCLUDE=all in .env to enable metrics
   immich-prometheus:
     container_name: immich_prometheus
+    image: prom/prometheus
     ports:
       - 9090:9090
-    image: prom/prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
@@ -100,10 +100,10 @@ services:
   # add data source for http://immich-prometheus:9090 to get started
   immich-grafana:
     container_name: immich_grafana
+    image: grafana/grafana:11.6.1-ubuntu
     command: ['./run.sh', '-disable-reporting']
     ports:
       - 31000:3000
-    image: grafana/grafana:11.6.1-ubuntu
     volumes:
       - grafana-data:/var/lib/grafana
 
