@@ -41,6 +41,8 @@ RUN apt-get install -y /tmp/vectors.deb && rm -f /tmp/vectors.deb
 
 # 添加初始化脚本
 COPY ./init-extensions.sql /docker-entrypoint-initdb.d/
+COPY --chmod=755 ./scripts /scripts
+RUN chmod +x /scripts/*
 
 EXPOSE 5432
 VOLUME [ "/var/lib/postgresql/data" ]
@@ -48,4 +50,7 @@ ENV POSTGRES_PASSWORD=postgres \
     POSTGRES_USER=postgres \
     POSTGRES_DB=postgres \
     TZ=Asia/Shanghai
-CMD ["postgres", "-c" ,"shared_preload_libraries=vectors.so", "-c", "search_path=\"$user\", public, vectors", "-c", "logging_collector=on", "-c", "max_wal_size=2GB", "-c", "shared_buffers=512MB", "-c", "wal_compression=on"]
+
+ENTRYPOINT [ "/bin/bash" ]
+CMD ["/scripts/start.sh"]
+HEALTHCHECK CMD ["/scripts/healthcheck.sh"]
