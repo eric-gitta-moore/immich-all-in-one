@@ -1,6 +1,6 @@
-.env
 models
 library
 model-cache
 prometheus-data
 grafana-data
+!.env
