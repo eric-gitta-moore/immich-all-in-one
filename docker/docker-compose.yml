@@ -7,7 +7,7 @@ services:
       dockerfile: server/Dockerfile
     extends:
       file: hwaccel.yml
-      service: ${DEVICE:-cpu} 
+      service: ${DEVICE:-cpu}
     volumes:
       - ${UPLOAD_LOCATION}/photos:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
@@ -20,7 +20,7 @@ services:
     depends_on:
       - redis
       - database
-    restart: always
+    restart: unless-stopped
 
   immich-machine-learning:
     build:
@@ -30,14 +30,14 @@ services:
         - DEVICE=${DEVICE:-cpu}
     extends:
       file: hwaccel.yml
-      service: ${DEVICE:-cpu} 
+      service: ${DEVICE:-cpu}
     ports:
       - 31003:3003
     volumes:
       - ./model-cache:/cache
     env_file:
       - .env
-    restart: always
+    restart: unless-stopped
 
   redis:
     image: docker.io/valkey/valkey:8-bookworm
@@ -45,7 +45,7 @@ services:
       test: redis-cli ping || exit 1
     ports:
       - 6379:6379
-    restart: always
+    restart: unless-stopped
 
   database:
     build:
@@ -63,7 +63,7 @@ services:
       - ${UPLOAD_LOCATION}/postgres:/var/lib/postgresql/data
     ports:
       - 5432:5432
-    restart: always
+    restart: unless-stopped
 
   # set IMMICH_TELEMETRY_INCLUDE=all in .env to enable metrics
   prometheus:
@@ -75,6 +75,7 @@ services:
       - ./prometheus-data:/prometheus
     healthcheck:
       test: wget -qO- http://localhost:9090/-/ready || exit 1
+    restart: unless-stopped
 
   # first login uses admin/admin
   # add data source for http://prometheus:9090 to get started
@@ -87,6 +88,7 @@ services:
       - ./grafana-data:/var/lib/grafana
     healthcheck:
       test: curl -f http://localhost:3000/api/health || exit 1
+    restart: unless-stopped
 
   inference-gateway:
     build:
@@ -101,6 +103,7 @@ services:
     depends_on:
       - immich-machine-learning
       - photos-ai
+    restart: unless-stopped
 
   photos-ai:
     build:
@@ -119,3 +122,4 @@ services:
       - ./models/insightface:/root/.insightface/models
     ports:
       - 8060:8060
+    restart: unless-stopped
