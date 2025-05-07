@@ -66,7 +66,7 @@ services:
     restart: always
 
   # set IMMICH_TELEMETRY_INCLUDE=all in .env to enable metrics
-  immich-prometheus:
+  prometheus:
     image: prom/prometheus
     ports:
       - 9090:9090
@@ -77,8 +77,8 @@ services:
       test: wget -qO- http://localhost:9090/-/ready || exit 1
 
   # first login uses admin/admin
-  # add data source for http://immich-prometheus:9090 to get started
-  immich-grafana:
+  # add data source for http://prometheus:9090 to get started
+  grafana:
     image: grafana/grafana:11.6.1-ubuntu
     command: ["./run.sh", "-disable-reporting"]
     ports:
