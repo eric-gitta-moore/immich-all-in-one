@@ -1,0 +1,9 @@
+services:
+  cpu: {}
+
+  cuda:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia

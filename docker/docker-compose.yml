@@ -7,6 +7,9 @@ services:
     build:
       context: ../immich
       dockerfile: server/Dockerfile
+    extends:
+      file: hwaccel.yml
+      service: ${DEVICE:-cpu} 
     volumes:
       - ${UPLOAD_LOCATION}/photos:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
@@ -27,6 +30,11 @@ services:
     build:
       context: ../immich/machine-learning
       dockerfile: Dockerfile
+      args:
+        - DEVICE=${DEVICE:-cpu}
+    extends:
+      file: hwaccel.yml
+      service: ${DEVICE:-cpu} 
     ports:
       - 31003:3003
     volumes:
@@ -115,6 +123,8 @@ services:
     build:
       context: ../mt-photos-ai
       dockerfile: Dockerfile
+      args:
+        - BUILD_DEVICE=${DEVICE:-cuda}
     environment:
       - API_AUTH_KEY=mt_photos_ai_extra
       - CLIP_MODEL=ViT-B-16
