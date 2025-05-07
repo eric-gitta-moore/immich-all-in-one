@@ -124,7 +124,7 @@ services:
       context: ../mt-photos-ai
       dockerfile: Dockerfile
       args:
-        - BUILD_DEVICE=${DEVICE:-cuda}
+        - DEVICE=${DEVICE:-cuda}
     environment:
       - API_AUTH_KEY=mt_photos_ai_extra
       - CLIP_MODEL=ViT-B-16
