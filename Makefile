@@ -4,6 +4,6 @@ start:
 dev:
 	cd docker && docker compose up
 
-stop:
+down:
 	cd docker && docker compose down
 
