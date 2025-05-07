@@ -7,3 +7,6 @@
 [submodule "immich"]
 	path = immich
 	url = https://github.com/eric-gitta-moore/immich.git
+[submodule "portal-ai-photos"]
+	path = portal-ai-photos
+	url = https://github.com/eric-gitta-moore/portal-ai-photos.git
