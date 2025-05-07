@@ -39,13 +39,13 @@ COPY --from=builder /usr/share/postgresql/${PG_MAJOR}/tsearch_data/*.utf8.* /usr
 COPY --from=binary /pgvecto-rs-binary-release.deb /tmp/vectors.deb
 RUN apt-get install -y /tmp/vectors.deb && rm -f /tmp/vectors.deb
 
-# 复制配置文件
-COPY ./postgresql.conf /etc/postgresql/postgresql.conf
-
 # 添加初始化脚本
 COPY ./init-extensions.sql /docker-entrypoint-initdb.d/
 
 EXPOSE 5432
 VOLUME [ "/var/lib/postgresql/data" ]
-# 使用配置文件启动PostgreSQL
-CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+ENV POSTGRES_PASSWORD=postgres \
+    POSTGRES_USER=postgres \
+    POSTGRES_DB=postgres \
+    TZ=Asia/Shanghai
+CMD ["postgres", "-c" ,"shared_preload_libraries=vectors.so", "-c", "search_path=\"$user\", public, vectors", "-c", "logging_collector=on", "-c", "max_wal_size=2GB", "-c", "shared_buffers=512MB", "-c", "wal_compression=on"]

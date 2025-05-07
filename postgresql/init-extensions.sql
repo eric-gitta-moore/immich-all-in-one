@@ -1,10 +1,8 @@
 -- 开启向量拓展
-DROP EXTENSION IF EXISTS vectors;
-CREATE EXTENSION vectors;
+CREATE EXTENSION IF NOT EXISTS vectors;
 
 -- 开启中文分词器
-DROP EXTENSION IF EXISTS zhparser;
-CREATE EXTENSION zhparser;
+CREATE EXTENSION IF NOT EXISTS zhparser;
 -- make test configuration using parser
 CREATE TEXT SEARCH CONFIGURATION zhcfg (PARSER = zhparser);
 -- add token mapping
