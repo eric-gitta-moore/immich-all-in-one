@@ -7,6 +7,7 @@
 - **inference-gateway**：Go 语言编写的网关服务，负责智能分流 Immich 的机器学习请求
 - **mt-photos-ai**：基于 Python 和 FastAPI 的 AI 服务，集成了 RapidOCR 和 cn-clip 模型
 - 对 Immich 的功能扩展，包括 OCR 文本识别搜索和单媒体 AI 数据重新处理，OCR 全文向量和 CLIP 向量打分混合排序
+- PostgreSQL 添加 zhparser 中文分词
 
 ## 主要功能
 
