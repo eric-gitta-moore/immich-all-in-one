@@ -1,4 +1,4 @@
-# Immich + cn-clip + OCR
+# Immich + cn-clip + RapidOCR + InspireFace
 
 ## 项目简介
 
