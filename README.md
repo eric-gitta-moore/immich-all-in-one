@@ -1,5 +1,7 @@
 # Immich + cn-clip + RapidOCR + InsightFace
 
+> 后续计划迁移到 ente-io/ente，因为我需要 s3 来存储照片
+
 ## 项目简介
 
 本项目是 [Immich](https://github.com/immich-app/immich) 照片管理系统的 AI 能力增强解决方案。主要通过以下组件扩展了 Immich 的原生功能：
