@@ -4,3 +4,4 @@ model-cache
 prometheus-data
 grafana-data
 !.env
+external-storage

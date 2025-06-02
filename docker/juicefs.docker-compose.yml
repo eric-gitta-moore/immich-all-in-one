@@ -1,0 +1,30 @@
+name: juicefs-gateway
+
+services:
+  juicefs:
+    image: juicedata/mount
+    container_name: myjfs
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    security_opt:
+      - apparmor:unconfined
+    command: ["juicefs", "mount", "redis://192.168.1.4:46379/1", "/mnt/jfs"]
+  
+  debian:
+    image: debian
+    volumes:
+      - jfsvolume:/mnt/jfs
+    command: tail -f /dev/null
+
+volumes:
+  jfsvolume:
+    driver: juicedata/juicefs
+    driver_opts:
+      name: ${VOL_NAME:-jfstest}
+      metaurl: ${META_URL:-redis://192.168.1.4:46379/1}
+      storage: ${STORAGE_TYPE:-s3}
+      bucket: ${BUCKET:-http://192.168.1.4:9000/test-bucket}
+      access-key: ${ACCESS_KEY:-lIk2ApwRMRrCGzFAsMDh}
+      secret-key: ${SECRET_KEY:-JRbT6VNhlDCa2wJaZzM9ZtuUYul06b8HD46OsKZ9}
