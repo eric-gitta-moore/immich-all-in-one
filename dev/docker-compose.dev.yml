@@ -58,7 +58,7 @@ services:
     ports:
       - 9230:9230
       - 9231:9231
-      - 2283:2283
+      - 32283:2283
     depends_on:
       - redis
       - database
@@ -185,7 +185,7 @@ services:
       args:
         - DEVICE=${DEVICE:-cpu}
     extends:
-      file: hwaccel.yml
+      file: hwaccel.ml.yml
       service: ${DEVICE:-cpu}
     environment:
       - API_AUTH_KEY=mt_photos_ai_extra

@@ -1,3 +1,4 @@
-.env
+!.env
 docker-compose.yml
 library
+models
