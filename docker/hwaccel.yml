@@ -2,9 +2,4 @@ services:
   cpu: {}
 
   cuda:
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              capabilities: [gpu]
+    gpus: all
