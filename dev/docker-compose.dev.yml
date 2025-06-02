@@ -36,6 +36,7 @@ services:
     env_file:
       - .env
     environment:
+      IMMICH_MACHINE_LEARNING_URL: http://inference-gateway:8080
       IMMICH_REPOSITORY: immich-app/immich
       IMMICH_REPOSITORY_URL: https://github.com/immich-app/immich
       IMMICH_SOURCE_REF: local
@@ -161,6 +162,44 @@ services:
   #   image: grafana/grafana:10.3.3-ubuntu
   #   volumes:
   #     - grafana-data:/var/lib/grafana
+
+  inference-gateway:
+    build:
+      context: ../inference-gateway
+      dockerfile: Dockerfile
+    environment:
+      - IMMICH_API=http://immich-machine-learning:3003
+      - MT_PHOTOS_API=http://photos-ai:8060
+      - MT_PHOTOS_API_KEY=mt_photos_ai_extra
+    ports:
+      - 8080:8080
+    depends_on:
+      - immich-machine-learning
+      - photos-ai
+    restart: unless-stopped
+
+  photos-ai:
+    build:
+      context: ../mt-photos-ai
+      dockerfile: Dockerfile
+      args:
+        - DEVICE=${DEVICE:-cpu}
+    extends:
+      file: hwaccel.yml
+      service: ${DEVICE:-cpu}
+    environment:
+      - API_AUTH_KEY=mt_photos_ai_extra
+      - CLIP_MODEL=ViT-B-16
+      - RECOGNITION_MODEL=buffalo_l
+      - DETECTION_THRESH=0.65
+    volumes:
+      - ./models/clip:/app/.cache/clip
+      - ./models/rapidocr:/app/.venv/lib/python3.11/site-packages/rapidocr/models/
+      - ./models/insightface:/root/.insightface/models
+    ports:
+      - 8060:8060
+    restart: unless-stopped
+
 
 volumes:
   model-cache:
