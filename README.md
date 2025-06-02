@@ -1,6 +1,10 @@
 # Immich + cn-clip + RapidOCR + InsightFace
 
-> 后续计划迁移到 ente-io/ente，因为我需要 s3 来存储照片
+> ~~后续计划迁移到 ente-io/ente，因为我需要 s3 来存储照片~~
+> 
+> ente 还是功能太少了
+> 
+> 改成使用 juicedata/juicefs 挂载 s3
 
 ## 项目简介
 
