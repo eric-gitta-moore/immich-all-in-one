@@ -15,7 +15,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./jfs:/mnt/jfs:rw,rshared
+      - ./jfslocal:/mnt/jfs:rw,rshared
     cap_add:
       - SYS_ADMIN
     devices:
@@ -29,12 +29,15 @@ services:
       format_juicefs:
         condition: service_completed_successfully
 
-  # debian:
-  #   image: debian:latest
-  #   command: ["tail", "-f", "/dev/null"]
-  #   volumes:
-  #     - jfsvol:/mnt/jfs
-  #     - jfstest:/mnt/jfstest
+  debian:
+    profiles:
+      - test
+    image: debian:latest
+    command: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ./jfslocal:/mnt/jfslocal
+      # - jfsvol:/mnt/jfs
+      # - jfstest:/mnt/jfstest
 
 # volumes:
 #   jfsvol:
