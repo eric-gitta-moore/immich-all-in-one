@@ -22,23 +22,6 @@ services:
       - database
     restart: unless-stopped
 
-  immich-machine-learning:
-    build:
-      context: ../immich/machine-learning
-      dockerfile: Dockerfile
-      args:
-        - DEVICE=${DEVICE:-cpu}
-    extends:
-      file: hwaccel.yml
-      service: ${DEVICE:-cpu}
-    ports:
-      - 31003:3003
-    volumes:
-      - ./model-cache:/cache
-    env_file:
-      - .env
-    restart: unless-stopped
-
   redis:
     image: valkey/valkey:8-alpine
     healthcheck:
