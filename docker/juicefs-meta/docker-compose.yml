@@ -16,5 +16,3 @@ services:
         else
           redis-server /etc/redis/redis.conf --requirepass ${PANEL_REDIS_ROOT_PASSWORD}
         fi'
-    healthcheck:
-      test: redis-cli ping || exit 1
