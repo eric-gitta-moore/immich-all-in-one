@@ -1,0 +1,15 @@
+name: juicefs-meta
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 46379:6379
+    env_file:
+      - .env
+    volumes:
+      - ./redis/data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: redis-cli ping || exit 1

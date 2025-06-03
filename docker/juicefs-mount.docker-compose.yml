@@ -1,4 +1,4 @@
-name: juicefs-gateway
+name: juicefs-mount
 
 services:
   juicefs:
