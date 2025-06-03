@@ -1,0 +1,35 @@
+name: juicefs-mount
+
+services:
+  format_juicefs:
+    image: juicedata/mount
+    env_file:
+      - .
+    environment:
+      VOL_NAME: ${VOL_NAME:-immich-data}
+      META_URL: ${META_URL:-redis://192.168.1.4:46379/1}
+      BUCKET: ${BUCKET:-https://demo.r2.cloudflarestorage.com/immich-data}
+      ACCESS_KEY: ${ACCESS_KEY:-demo}
+      SECRET_KEY: ${SECRET_KEY:-demo}
+    command: >
+      sh -c "test -e /juicefs_created || \
+      (juicefs format --storage s3 --bucket $${BUCKET} --access-key=$${ACCESS_KEY} --secret-key=$${SECRET_KEY} $${META_URL} $${VOL_NAME}  && \
+      touch /juicefs_created)"
+
+  juicefs:
+    image: juicedata/mount
+    container_name: myjfs
+    volumes:
+      - ./jfs:/mnt/jfs:rw,rshared
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    security_opt:
+      - apparmor:unconfined
+    command:
+      ["juicefs", "mount", "redis://192.168.1.4:46379/1", "/mnt/jfs"]
+    restart: unless-stopped
+    depends_on:
+      format_juicefs:
+        condition: service_completed_successfully
