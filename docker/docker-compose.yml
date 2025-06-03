@@ -40,7 +40,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: docker.io/valkey/valkey:8-bookworm
+    image: valkey/valkey:8-alpine
     healthcheck:
       test: redis-cli ping || exit 1
     ports:
