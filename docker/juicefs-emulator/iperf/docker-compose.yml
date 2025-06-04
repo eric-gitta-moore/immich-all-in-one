@@ -1,3 +1,10 @@
+# --label "com.docker-tc.enabled=1" \
+# --label "com.docker-tc.limit=1mbps" \
+# --label "com.docker-tc.delay=100ms" \
+# --label "com.docker-tc.loss=50%" \
+# --label "com.docker-tc.duplicate=50%" \
+# --label "com.docker-tc.corrupt=10%" \
+
 services:
   # docker run  -it --rm --name=iperf3-server -p 5201:5201 networkstatic/iperf3 -s
   iperf3-server:
@@ -9,6 +16,9 @@ services:
     command: -s
     tty: true
     stdin_open: true
+    labels:
+      - com.docker-tc.enabled=1
+      - com.docker-tc.limit=10mbps
 
   # docker run  -it --rm networkstatic/iperf3 -c 172.17.0.163
   iperf3-client:
@@ -18,6 +28,9 @@ services:
     command: -c iperf3-server
     tty: true
     stdin_open: true
+    labels:
+      - com.docker-tc.enabled=1
+      - com.docker-tc.limit=10mbps
     depends_on:
       - iperf3-server
 
