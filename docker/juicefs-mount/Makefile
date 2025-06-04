@@ -10,6 +10,6 @@ install:
 mount:
 	docker compose up
 
-unmount:
+umount:
 	docker compose down
 
