@@ -1,0 +1,2 @@
+stats:
+	juicefs stats ./jfslocal

@@ -1,0 +1,11 @@
+name: jfs-bench
+
+services:
+  jfs_bench:
+    image: juicedata/mount
+    volumes:
+      - ../../juicefs-mount/jfslocal:/mnt/jfs
+    command: >
+      juicefs bench /mnt/jfs
+    tty: true
+    stdin_open: true
