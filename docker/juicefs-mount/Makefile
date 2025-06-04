@@ -11,5 +11,8 @@ mount:
 	docker compose up
 
 umount:
-	docker compose down && sudo juicefs umount ./jfslocal
+	docker compose down
+
+umount-fuse:
+	sudo fusermount -uz ./jfslocal
 
