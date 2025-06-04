@@ -18,7 +18,7 @@ services:
     stdin_open: true
     labels:
       - com.docker-tc.enabled=1
-      - com.docker-tc.limit=10mbps
+      - com.docker-tc.limit=${LIMIT}
 
   # docker run  -it --rm networkstatic/iperf3 -c 172.17.0.163
   iperf3-client:
@@ -30,7 +30,7 @@ services:
     stdin_open: true
     labels:
       - com.docker-tc.enabled=1
-      - com.docker-tc.limit=10mbps
+      - com.docker-tc.limit=${LIMIT}
     depends_on:
       - iperf3-server
 
