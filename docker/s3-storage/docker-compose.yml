@@ -12,10 +12,3 @@ services:
     #   - MINIO_ROOT_USER=minio
     #   - MINIO_ROOT_PASSWORD=minio123
     command: server /data --console-address ":9001"
-
-  redis:
-    image: redis:8
-    ports:
-      - 46379:6379
-    volumes:
-      - ./external-storage/redis/data:/data
