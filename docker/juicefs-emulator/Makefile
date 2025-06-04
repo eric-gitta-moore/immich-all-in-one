@@ -6,4 +6,6 @@ run:
 
 down:
 	cd iperf && docker compose down
+
+down-tc:
 	cd tc-docker && docker compose down
