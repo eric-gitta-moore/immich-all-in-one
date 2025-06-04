@@ -1,4 +1,4 @@
-tc-docker:
+tc:
 	cd tc-docker && docker compose up
 
 run:
