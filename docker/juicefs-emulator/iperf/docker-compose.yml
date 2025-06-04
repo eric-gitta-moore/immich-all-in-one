@@ -1,0 +1,25 @@
+services:
+  # docker run  -it --rm --name=iperf3-server -p 5201:5201 networkstatic/iperf3 -s
+  iperf3-server:
+    image: networkstatic/iperf3
+    networks:
+      - test-net
+    ports:
+      - 5201:5201
+    command: -s
+    tty: true
+    stdin_open: true
+
+  # docker run  -it --rm networkstatic/iperf3 -c 172.17.0.163
+  iperf3-client:
+    image: networkstatic/iperf3
+    networks:
+      - test-net
+    command: -c iperf3-server
+    tty: true
+    stdin_open: true
+    depends_on:
+      - iperf3-server
+
+networks:
+  test-net:
