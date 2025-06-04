@@ -25,6 +25,8 @@ services:
     command: >
       juicefs mount --cache-size ${CACHE_SIZE} ${META_URL} /mnt/jfs
     restart: unless-stopped
+    networks:
+      - juicefs-network
     labels:
       - com.docker-tc.enabled=${TC_ENABLED:-0}
       - com.docker-tc.limit=${TC_LIMIT:-10mbit}
@@ -41,6 +43,9 @@ services:
       - ./jfslocal:/mnt/jfslocal
       # - jfsvol:/mnt/jfs
       # - jfstest:/mnt/jfstest
+
+networks:
+  juicefs-network:
 
 # volumes:
 #   jfsvol:
