@@ -1,8 +1,8 @@
 stats:
-	/tmp/juicefs stats ./jfslocal
+	juicefs stats ./jfslocal
 
 bench:
-	/tmp/juicefs bench ./jfslocal
+	juicefs bench ./jfslocal
 
 install:
-	curl -sSL https://d.juicefs.com/install | sh -s /tmp
+	curl -sSL https://d.juicefs.com/install | sh -
