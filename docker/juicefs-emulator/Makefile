@@ -10,5 +10,3 @@ down:
 down-tc:
 	cd tc-docker && docker compose down
 
-bench:
-	cd jfs-bench && docker compose up && docker compose down
