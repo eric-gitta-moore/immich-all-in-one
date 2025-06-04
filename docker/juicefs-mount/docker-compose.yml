@@ -25,6 +25,9 @@ services:
     command: >
       juicefs mount --cache-size ${CACHE_SIZE} ${META_URL} /mnt/jfs
     restart: unless-stopped
+    labels:
+      - com.docker-tc.enabled=${TC_ENABLED:-0}
+      - com.docker-tc.limit=${TC_LIMIT:-10mbit}
     depends_on:
       format_juicefs:
         condition: service_completed_successfully
