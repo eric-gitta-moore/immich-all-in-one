@@ -10,7 +10,7 @@ services:
       service: ${DEVICE:-cpu}
     volumes:
       - ${UPLOAD_LOCATION}/photos:/usr/src/app/upload
-      - ${UPLOAD_LOCATION}/external:/external
+      - ${UPLOAD_LOCATION}/external:/external:rw,rshared
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
